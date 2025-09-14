@@ -1,3 +1,4 @@
+### Cloud init
 data "template_file" "user_data" {
   for_each = var.instances
 

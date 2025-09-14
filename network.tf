@@ -1,9 +1,12 @@
+### Create network
 resource "libvirt_network" "terraform_net" {
+  mode = "nat"
+
   name = coalesce(
     var.network.name,
     "terraform"
   )
-  mode = "nat"
+
   domain = coalesce(
     var.network.domain,
     "local"

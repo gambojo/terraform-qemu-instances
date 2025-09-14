@@ -1,51 +1,46 @@
-# Instance parameters
+### Instance parameters
 variable "instances" {
   type = map(object({
     image       = optional(string)
     memory      = optional(number)
     vcpu        = optional(number)
+    size        = optional(number)
   }))
 
   default = {
-    vm = {
-      image     = "ubuntu-22.04-server-cloudimg-amd64.img"
-      memory    = 2048
-      vcpu      = 2
-    }
+    vm = {}
   }
 }
 
-# Default instance properties
+### Default instance properties
 variable "instance_defaults" {
   type = object({
     image       = string
     memory      = number
     vcpu        = number
+    size        = number
   })
 
   default = {
     image     = "ubuntu-22.04-server-cloudimg-amd64.img"
     memory    = 2048
     vcpu      = 2
+    size      = 8
   }
 }
 
-# Network parameters
+### Network parameters
 variable "network" {
   type = object({
-    name    = string
+    name    = optional(string)
     pool    = optional(string)
     domain  = optional(string)
   })
 
-  default = {
-    name    = "terraform"
-    pool    = "192.168.0.0/24"
-    domain  = "local"
-  }
+  default = {}
 }
 
-# User parameters
+### User parameters
 variable "user" {
   type = object({
     name            = string,
@@ -62,6 +57,7 @@ variable "user" {
   }
 }
 
+### All images for VM's uses
 variable "image_urls" {
   type = list
   default = [
@@ -69,11 +65,13 @@ variable "image_urls" {
   ]
 }
 
+### Output directory
 variable "output_dir" {
   type = string
   default = "outputs"
 }
 
+### Directory for downloaded images
 variable "images_dir" {
   type = string
   default = "images"

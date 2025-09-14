@@ -1,7 +1,8 @@
+### Create VM's
 resource "libvirt_domain" "vm" {
   for_each = var.instances
-
   name   = each.key
+
   memory = coalesce(
     each.value.memory,
     var.instance_defaults.memory
@@ -29,10 +30,11 @@ resource "libvirt_domain" "vm" {
   ]
 }
 
+### Print IP's
 output "vm_ips" {
   value = {
     for name, vm in libvirt_domain.vm :
-    name => vm.network_interface[0].addresses
+    name => vm.network_interface[0].addresses[0]
   }
 
   depends_on = [
@@ -41,6 +43,7 @@ output "vm_ips" {
   ]
 }
 
+### Create inventory file for ansible
 resource "local_file" "inventory" {
   filename        = "${path.module}/${var.output_dir}/inventory.yml"
   file_permission = "0644"

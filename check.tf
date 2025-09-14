@@ -1,11 +1,13 @@
-# Functions
+### Check functions
 locals {
+  ### dinamic check format of images
   get_format = { 
     "qcow2" = "qcow2"
     "img"   = "qcow2"
     "raw"   = "raw"
   }
 
+  ### get ip's from vm's for output
   instances_info = {
     for name, vm in libvirt_domain.vm :
     name => {
@@ -14,6 +16,7 @@ locals {
   }
 }
 
+### Check instances for ready
 resource "null_resource" "wait_for_vm" {
   for_each = var.instances
 
